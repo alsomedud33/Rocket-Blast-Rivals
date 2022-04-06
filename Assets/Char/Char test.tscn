@@ -4,11 +4,11 @@
 [ext_resource path="res://Assets/Weapon/Rocket Launcher/Rocket launcher.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/Char/Skeleton.gd" type="Script" id=3]
 
-[sub_resource type="SpatialMaterial" id=9]
+[sub_resource type="SpatialMaterial" id=11]
 albedo_color = Color( 1, 0, 0, 1 )
 
 [sub_resource type="SphereMesh" id=10]
-material = SubResource( 9 )
+material = SubResource( 11 )
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "Model Rigged_Plane009"

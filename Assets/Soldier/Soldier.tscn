@@ -1,0 +1,98 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Assets/Weapon/Rocket Launcher/Rocket launcher.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Soldier/Soldier.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Soldier/Soldier Hat.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/All/Viewport.gd" type="Script" id=4]
+[ext_resource path="res://Assets/All/UI/HUD.tscn" type="PackedScene" id=5]
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.5
+
+[sub_resource type="CapsuleMesh" id=2]
+radius = 0.5
+
+[node name="Soldier" type="KinematicBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+collision_layer = 2
+collision_mask = 9
+script = ExtResource( 2 )
+
+[node name="Pivot" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0 )
+
+[node name="Camera" type="Camera" parent="Pivot"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
+cull_mask = 1048569
+
+[node name="RayCast" type="RayCast" parent="Pivot/Camera"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
+enabled = true
+cast_to = Vector3( 0, 0, 100 )
+
+[node name="Rocket Launcher" parent="Pivot/Camera" instance=ExtResource( 1 )]
+transform = Transform( -1, 8.74228e-08, -3.82137e-15, 0, -4.37114e-08, -1, -8.74228e-08, -1, 4.37114e-08, 0.80797, -0.212756, -0.366527 )
+layers = 4
+skeleton = NodePath("../..")
+
+[node name="Gun0" type="Spatial" parent="Pivot/Camera/Rocket Launcher"]
+transform = Transform( 1, 0, 0, 0, 1, 7.10543e-15, 0, -7.10543e-15, 1, 0.180719, 0.84057, -0.134272 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="CollisionShape"]
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="Soldier Hat" parent="." instance=ExtResource( 3 )]
+transform = Transform( -0.3, 0, -2.62268e-08, 0, 0.3, 0, 2.62268e-08, 0, -0.3, 0, 0, 0 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ViewportContainer" type="ViewportContainer" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+
+[node name="Crosshair" type="TextureRect" parent="CanvasLayer/ViewportContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Viewport" type="Viewport" parent="CanvasLayer/ViewportContainer"]
+size = Vector2( 1280, 720 )
+transparent_bg = true
+handle_input_locally = false
+hdr = false
+render_target_update_mode = 3
+
+[node name="Camera" type="Camera" parent="CanvasLayer/ViewportContainer/Viewport"]
+transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 1.7, 0 )
+cull_mask = 4
+current = true
+near = 0.01
+far = 2.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Rocket_Launch" type="AudioStreamPlayer3D" parent="."]
+
+[node name="Jump" type="AudioStreamPlayer3D" parent="."]
+
+[node name="Footstep1" type="AudioStreamPlayer3D" parent="."]
+
+[node name="Footstep2" type="AudioStreamPlayer3D" parent="."]
+
+[node name="Footstep3" type="AudioStreamPlayer3D" parent="."]
+
+[node name="land" type="AudioStreamPlayer3D" parent="."]
+
+[node name="Rocket_Trail" type="AudioStreamPlayer3D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Footstep" type="Timer" parent="."]
+
+[node name="HUD" parent="." instance=ExtResource( 5 )]
