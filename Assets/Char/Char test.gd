@@ -28,6 +28,12 @@ onready var timer = $Timer
 onready var rocket_launcher = null#preload("res://assets/Soldier/Rocket.tscn")#: PackedScene 
 onready var main = get_tree().current_scene
 onready var guns = $"Pivot/Camera/Rocket Launcher/Gun0"
+onready var skel = get_node("Armature/Skeleton")
+var headbone
+var r_bicep
+var l_bicep
+var initial_head_transform
+
 export var cooldown = 0.8
 var velocity: Vector3 = Vector3.ZERO # The current velocity vector
 var wishdir: Vector3 = Vector3.ZERO # Desired travel direction of the player
@@ -54,14 +60,30 @@ func _input(event: InputEvent) -> void:
 		head.rotation = camera_rot
 
 func _ready():
+	headbone = skel.find_bone("Head")
+	r_bicep = skel.find_bone("Bicep.R")
+	l_bicep = skel.find_bone("Bicep.L")
+#	head.translation = skel.get_bone_global_pose(headbone).origin
+	initial_head_transform = skel.get_bone_pose(headbone)
 	Globals.player = 1
 	yield(get_tree().create_timer(.2), "timeout")
 	main = get_tree().current_scene
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	$"Armature/Skeleton/SkeletonIK".start()
+	$"Armature/Skeleton/SkeletonIK2".start()
+	
+
+
 func _process(delta):
 	mouse_sensitivity = Globals.mouse_sense * 0.001
 	gun_camera.global_transform = camera.global_transform
-
+	var current_head_transform = initial_head_transform.rotated(Vector3(1,0,0),head.rotation.x)
+	var current_head_transformN = initial_head_transform.rotated(Vector3(-1,0,0),head.rotation.x)
+	skel.set_bone_pose(headbone,current_head_transform)
+	skel.set_bone_pose(r_bicep,current_head_transformN)
+	skel.set_bone_pose(l_bicep,current_head_transformN)
+	$"Armature/Skeleton/Right Hand/Rocket Launcher/Front".global_transform.origin = $"Pivot/Camera/Rocket Launcher/Position3D".global_transform.origin
+	$'Armature/Skeleton/Right Hand/Rocket Launcher/Back'.global_transform.origin = $"Pivot/Camera/Rocket Launcher/Position3D2".global_transform.origin
 func _physics_process(delta: float) -> void:
 	#print(wish_jump)
 	queue_jump()

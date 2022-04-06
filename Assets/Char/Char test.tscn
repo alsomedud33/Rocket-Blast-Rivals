@@ -1,8 +1,14 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Assets/Char/Char test.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Weapon/Rocket Launcher/Rocket launcher.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/Char/Skeleton.gd" type="Script" id=3]
+
+[sub_resource type="SpatialMaterial" id=9]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="SphereMesh" id=10]
+material = SubResource( 9 )
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "Model Rigged_Plane009"
@@ -453,6 +459,28 @@ skeleton = NodePath("../..")
 [node name="Gun0" type="Spatial" parent="Pivot/Camera/Rocket Launcher"]
 transform = Transform( 1, 0, 0, 0, 1, 7.10543e-15, 0, -7.10543e-15, 1, 0.180719, 0.84057, -0.134272 )
 
+[node name="Position3D" type="Position3D" parent="Pivot/Camera/Rocket Launcher"]
+transform = Transform( 1, 0, 4.85524e-36, 0, 1, 0, 0, 0, 1, 0, 0.386004, 0.226517 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Pivot/Camera/Rocket Launcher/Position3D"]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
+mesh = SubResource( 10 )
+material/0 = null
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Position3D2" type="Position3D" parent="Pivot/Camera/Rocket Launcher"]
+transform = Transform( 1, 0, 4.85524e-36, 0, 1, 0, 0, 0, 1, 0, -0.371819, 0.226517 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Pivot/Camera/Rocket Launcher/Position3D2"]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
+mesh = SubResource( 10 )
+material/0 = null
+__meta__ = {
+"_edit_lock_": true
+}
+
 [node name="Armature" type="Spatial" parent="."]
 
 [node name="Skeleton" type="Skeleton" parent="Armature"]
@@ -574,6 +602,40 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.402536, 1.07275, 0.589188 )
 [node name="Rocket Launcher" parent="Armature/Skeleton/Right Hand" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.32291, -0.434143 )
 layers = 0
+
+[node name="Front" type="Position3D" parent="Armature/Skeleton/Right Hand/Rocket Launcher"]
+transform = Transform( -0.304505, -0.924513, -0.229245, -0.947087, 0.319519, -0.0305634, 0.101504, 0.207808, -0.972889, -0.187426, 0.279118, 0.374472 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Armature/Skeleton/Right Hand/Rocket Launcher/Front"]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
+mesh = SubResource( 10 )
+material/0 = null
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Back" type="Position3D" parent="Armature/Skeleton/Right Hand/Rocket Launcher"]
+transform = Transform( -0.121058, -0.958453, -0.258289, -0.10146, 0.270787, -0.957278, 0.987447, -0.0896804, -0.130026, -0.112448, -0.428724, 0.351832 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Armature/Skeleton/Right Hand/Rocket Launcher/Back"]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
+mesh = SubResource( 10 )
+material/0 = null
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="SkeletonIK" type="SkeletonIK" parent="Armature/Skeleton"]
+process_priority = 1
+root_bone = "ForeArm.L"
+tip_bone = "Hand.L"
+target_node = NodePath("../Right Hand/Rocket Launcher/Front")
+
+[node name="SkeletonIK2" type="SkeletonIK" parent="Armature/Skeleton"]
+process_priority = 1
+root_bone = "ForeArm.R"
+tip_bone = "Hand.R"
+target_node = NodePath("../Right Hand/Rocket Launcher/Back")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 "anims/ Forward" = SubResource( 3 )

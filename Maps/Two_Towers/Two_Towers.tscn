@@ -11,3 +11,4 @@
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.972812, 0.231595, 0, -0.231595, 0.972812, 0, 1.34953, 3.4509 )
+current = true
